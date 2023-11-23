@@ -64,7 +64,7 @@ public class UserController {
     @GetMapping("/user/{id}")
     public ResponseEntity<User> listUserById(@PathVariable Long id){
         System.out.println("Getting by id");
-        Optional<User> userObtained = userService.getUserId(id);
+        Optional<User> userObtained = userService.getUserById(id);
         return userObtained.map(user -> ResponseEntity.status(HttpStatus.OK).body(user))
                 .orElseGet(() -> ResponseEntity.unprocessableEntity().build());
 
@@ -75,7 +75,7 @@ public class UserController {
 
     @PutMapping("/user/{id}")
     public ResponseEntity<String> updateUser(@Valid @PathVariable Long id, @RequestBody User user){
-        Optional<User> isUser = userService.getUserId(id);
+        Optional<User> isUser = userService.getUserById(id);
         if(isUser.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
@@ -92,7 +92,7 @@ public class UserController {
     @DeleteMapping("/user/{id}")
 
     public ResponseEntity<String> deleteUser(@PathVariable Long id){
-        Optional<User> isUser = userService.getUserId(id);
+        Optional<User> isUser = userService.getUserById(id);
         if(isUser.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }

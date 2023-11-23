@@ -2,6 +2,7 @@ package com.turismo.services;
 
 import com.turismo.Models.TouristPlan;
 import com.turismo.Repositories.ITouristPlan;
+import com.turismo.Repositories.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,10 +14,11 @@ public class TouristPlanService {
 
 
     private final ITouristPlan touristPlanRepo;
-
+    private final IUser userRepo;
     @Autowired
-    public TouristPlanService(ITouristPlan touristPlanRepo) {
+    public TouristPlanService(ITouristPlan touristPlanRepo, IUser userRepo) {
         this.touristPlanRepo = touristPlanRepo;
+        this.userRepo = userRepo;
     }
 
 

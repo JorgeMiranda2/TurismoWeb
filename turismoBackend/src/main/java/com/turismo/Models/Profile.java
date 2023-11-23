@@ -3,11 +3,13 @@ package com.turismo.Models;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 
 import java.util.List;
 
 @Data
 @Entity
+@ToString(exclude="users")
 @Table(name = "profile")
 public class Profile {
     @Id

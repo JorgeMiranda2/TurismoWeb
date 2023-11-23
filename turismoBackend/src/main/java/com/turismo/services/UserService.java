@@ -1,5 +1,6 @@
 package com.turismo.services;
 
+import com.turismo.Models.TouristPlan;
 import com.turismo.Models.User;
 import com.turismo.Repositories.IUser;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class UserService {
         return users;
     }
 
-    public Optional<User> getUserId(Long id){
+    public Optional<User> getUserById(Long id){
         return userRepo.findById(id);
     }
 
@@ -37,5 +38,9 @@ public class UserService {
     public Optional<Long> getUserIdFromUserName(String userName){
         Optional<Long> id = userRepo.getUserIdFromUserName(userName);
         return id;
+    }
+
+    public int countUsersByTouristPlan(TouristPlan touristPlan) {
+        return userRepo.countUsersByTouristPlansContains(touristPlan);
     }
 }
