@@ -1,0 +1,32 @@
+[
+  {
+    "method": "GET",
+    "route": "/api/user",
+    "roles": ["USER"]
+  },
+  {
+    "method": "POST",
+    "route": "/api/mytasks",
+    "roles": ["USER","ADMIN"]
+  },
+  {
+    "method": "GET",
+    "route": "/api/mytasks",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "POST",
+    "route": "/api/tag",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "DELETE",
+    "route": "/api/mytasks/{id}",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "PUT",
+    "route": "/api/mytasks/{id}",
+    "roles": ["ADMIN","USER"]
+  }
+]
