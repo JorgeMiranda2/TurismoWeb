@@ -17,8 +17,8 @@ public class TouristDestination {
     @Column(name="id")
     private Long id;
 
-    @Column(name="place")
-    private String place;
+    @Column(name="name")
+    private String name;
 
     @ManyToOne
     @JoinColumn(name="city_id")
@@ -33,7 +33,7 @@ public class TouristDestination {
 
     public TouristDestination(){}
     public TouristDestination(String name, Long id){
-        this.place = name;
+        this.name = name;
         this.city = new City(id);
     }
     public TouristDestination(Long id){

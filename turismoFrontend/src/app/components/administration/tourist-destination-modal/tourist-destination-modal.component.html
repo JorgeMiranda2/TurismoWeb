@@ -1,0 +1,33 @@
+<div class="container mt-4 mb-5"> <!-- Se añade margen inferior (mb-5) -->
+    <h4 class="mb-4">Tourist Destination</h4>
+  
+    <!-- Etiquetas (labels) y elementos de formulario -->
+    <label for="destinationInput">Nombre del destino:</label>
+    <input id="destinationInput" type="text" class="form-control mb-3" [(ngModel)]="destinationName" placeholder="Nombre del destino">
+  
+    <label for="countrySelect">País:</label>
+    <select id="countrySelect" class="form-select mb-3" [(ngModel)]="selectedCountry" (change)="onCountryChange()">
+      <option selected disabled>Selecciona un país</option>
+      <option *ngFor="let country of ubications?.countries" [value]="country.id">{{ country.name }}</option>
+    </select>
+  
+    <label for="departmentSelect">Departamento:</label>
+    <select id="departmentSelect" class="form-select mb-3" *ngIf="selectedCountry" [(ngModel)]="selectedDepartment" (change)="onDepartmentChange()">
+      <option selected disabled>Selecciona un departamento</option>
+      <option *ngFor="let department of ubications?.departments" [value]="department.id">{{ department.name }}</option>
+    </select>
+  
+    <label for="citySelect">Ciudad:</label>
+    <select id="citySelect" class="form-select mb-3" *ngIf="selectedDepartment" [(ngModel)]="selectedCity">
+      <option selected disabled>Selecciona una ciudad</option>
+      <option *ngFor="let city of ubications?.cities" [value]="city.id">{{ city.name }}</option>
+    </select>
+  
+    <!-- Botones de aceptar y cerrar -->
+    <div class="d-grid gap-2">
+      <button class="btn btn-primary" (click)="onSubmit()">Aceptar</button>
+      <button class="btn btn-secondary" (click)="onCloseModal()">Cerrar</button>
+    </div>
+  </div>
+  
+  

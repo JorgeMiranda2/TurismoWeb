@@ -43,6 +43,7 @@ public class SecurityConfig {
                             corsConfig.addAllowedOrigin("/**");
                             corsConfig.addAllowedOrigin("https://localhost:8080");
                             corsConfig.addAllowedOrigin("http://localhost:5173");
+                            corsConfig.addAllowedOrigin("http://localhost:4200");
                             corsConfig.addAllowedHeader("*");
                             corsConfig.addExposedHeader("Access-Control-Allow-Origin");
                             corsConfig.addExposedHeader("Access-Control-Allow-Credentials");

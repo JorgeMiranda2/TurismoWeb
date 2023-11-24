@@ -12,6 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 public class DtoTouristDestinationRegister {
-    private List<String> names;
+    private String name;
     private Long cityId;
 }

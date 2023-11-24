@@ -21,7 +21,7 @@ public class WebSecurityConfig {
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/**")
                         .allowedHeaders("*", "Authorization")
-                        .allowedOrigins("http://localhost:8080", "http://172.16.77.34:3000","http://localhost:5173","http://localhost:19006", "http://localhost",
+                        .allowedOrigins("http://localhost:8080","http://localhost:4200", "http://172.16.77.34:3000","http://localhost:5173","http://localhost:19006", "http://localhost",
                                 "http://172.16.77.34:19006", "http://172.16.77.34")
                         .allowedMethods("*")
                         .exposedHeaders("Access-Control-Allow-Origin", "Access-Control-Allow-Credentials")

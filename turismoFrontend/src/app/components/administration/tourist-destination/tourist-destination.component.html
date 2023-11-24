@@ -1,0 +1,43 @@
+<!-- Contenedor principal -->
+<div class="container mt-4">
+    <!-- Título de la sección -->
+    <h2 class="mb-4 text-center">Tourist Destination</h2>
+  
+    <!-- Botones -->
+    <button class="btn btn-primary me-2" (click)="onAdd()">Agregar</button>
+    <button class="btn btn-danger me-2" (click)="onDelete(selectedRow?.id)" [disabled]="!selectedRow">Borrar</button>
+    <button class="btn btn-warning" (click)="onUpdate()" [disabled]="!selectedRow">Actualizar</button>
+  
+    <!-- Tabla con estilos de Material Design -->
+    <table class="table table-striped table-hover">
+      <!-- Encabezados de columna -->
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>City</th>
+        </tr>
+      </thead>
+      <!-- Cuerpo de la tabla -->
+      <tbody>
+        <tr 
+          *ngFor="let element of dataSource" 
+          [class.demo-row-is-clicked]="selectedRow === element" 
+          (click)="onRowClicked(element)"
+        >
+          <td>{{ element.id }}</td>
+          <td>{{ element.name }}</td>
+          <td>{{ element.city.name }}</td>
+        </tr>
+      </tbody>
+    </table>
+  
+    <!-- Registro de clics -->
+    <div>
+      <h3>Click Log</h3>
+      <div *ngIf="!selectedRow">Clicked rows will be logged here</div>
+      <ul *ngIf="selectedRow">
+        <li>Clicked on {{ selectedRow.name }}</li>
+      </ul>
+    </div>
+</div>
