@@ -1,6 +1,7 @@
 package com.turismo.Models;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.turismo.Dtos.DtosInput.DtoLodgingRegister;
 import com.turismo.Models.Enums.LodgingType;
 import jakarta.persistence.*;
@@ -36,6 +37,7 @@ public class Lodging {
 
     @ManyToOne
     @JoinColumn(name="city_id")
+    @JsonBackReference
     private City city;
 
 

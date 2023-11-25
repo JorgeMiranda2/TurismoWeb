@@ -1,0 +1,57 @@
+<div class="container mt-4 mb-5">
+    <h1 class="mb-4 text-center">Tourist Destination</h1>
+  
+    <form (ngSubmit)="onSubmit()">
+ 
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre:</label>
+        <input type="text" id="name" class="form-control" [(ngModel)]="touristPlan.name" name="name" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="price" class="form-label">Precio:</label>
+        <input type="number" id="price" class="form-control" [(ngModel)]="touristPlan.price" name="price" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="days" class="form-label">Días:</label>
+        <input type="number" id="days" class="form-control" [(ngModel)]="touristPlan.days" name="days" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="nights" class="form-label">Noches:</label>
+        <input type="number" id="nights" class="form-control" [(ngModel)]="touristPlan.nights" name="nights" required>
+      </div>
+      <div class="mb-3">
+        <label for="transportType" class="form-label">Tipo de transporte:</label>
+        <select id="transportType" class="form-select" [(ngModel)]="touristPlan.transportType" name="transportType" required>
+          <option *ngFor="let transport of transports" [value]="transport" [selected]="transport === touristPlan.transportType">{{ transport }}</option>
+        </select>
+      </div>
+      
+  
+      <div class="mb-3">
+        <label for="numEnabledPackages" class="form-label">Paquetes habilitados:</label>
+        <input type="number" id="numEnabledPackages" class="form-control" [(ngModel)]="touristPlan.numEnabledPackages" name="numEnabledPackages" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="selectedDestinations" class="form-label">Destinos:</label>
+        <mat-form-field>
+            <mat-label>Destinos</mat-label>
+            <mat-select [formControl]="selecDestinations" multiple>
+              <ng-container *ngFor="let destin of destinations">
+                <mat-option [value]="destin.id">{{ destin.name }} - {{destin.city.name}}</mat-option>
+              </ng-container>
+            </mat-select>
+          </mat-form-field>
+          
+      </div>
+  
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="button" class="btn btn-secondary" (click)="onCloseModal()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+  

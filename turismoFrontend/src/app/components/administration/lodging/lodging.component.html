@@ -1,11 +1,14 @@
+
+
+
 <!-- Contenedor principal -->
 <div class="container mt-4">
     <!-- Título de la sección -->
-    <h2 class="mb-4 text-center">Destinos turisticos</h2>
+    <h2 class="mb-4 text-center">Planes turísticos</h2>
   
     <!-- Botones -->
     <button class="btn btn-primary me-2" (click)="onAdd()">Agregar</button>
-    <button class="btn btn-danger me-2" (click)="onDelete(selectedRow?.id)" [disabled]="!selectedRow">Borrar</button>
+    <button class="btn btn-danger me-2" (click)="onDelete(selectedRow?.lodging.id)" [disabled]="!selectedRow">Borrar</button>
     <button class="btn btn-warning" (click)="onUpdate()" [disabled]="!selectedRow">Actualizar</button>
   
     <!-- Tabla con estilos de Material Design -->
@@ -13,9 +16,8 @@
       <!-- Encabezados de columna -->
       <thead>
         <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>City</th>
+          <th   *ngFor="let element of displayedColumns"  >{{element}}</th>
+       
         </tr>
       </thead>
       <!-- Cuerpo de la tabla -->
@@ -25,9 +27,14 @@
           [class.demo-row-is-clicked]="selectedRow === element" 
           (click)="onRowClicked(element)"
         >
-          <td>{{ element.id }}</td>
-          <td>{{ element.name }}</td>
+          <td>{{ element.lodging.id }}</td>
+          <td>{{ element.lodging.name }}</td>
+          <td>{{ element.lodging.lodgingType }}</td>
+          <td>{{ element.lodging.numRooms }}</td>
+          <td>{{ element.lodging.checkIn }}</td>
+          <td>{{ element.lodging.checkOut }}</td>
           <td>{{ element.city.name }}</td>
+    
         </tr>
       </tbody>
     </table>
@@ -37,12 +44,12 @@
       <h3>Click Log</h3>
       <div *ngIf="!selectedRow">Clicked rows will be logged here</div>
       <ul *ngIf="selectedRow">
-        <li>Clicked on {{ selectedRow.name }}</li>
+        <li>Clicked on {{ selectedRow.lodging.name }}</li>
       </ul>
     </div>
 </div>
 
 <div class="d-flex justify-content-center align-items-center mt-4">
-  <button class="btn btn-primary" (click)="downloadPDF()">Descargar PDF</button>
-</div>
+    <button class="btn btn-primary" (click)="downloadPDF()">Descargar PDF</button>
+  </div>
 

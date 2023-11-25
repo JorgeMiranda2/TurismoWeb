@@ -31,7 +31,22 @@
   },
   {
     "method": "GET",
+    "route": "/api/quotastouristplanbyuser",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "GET",
+    "route": "/api/touristplanbasics",
+    "roles": ["ADMIN"]
+  },
+  {
+    "method": "GET",
     "route": "/api/touristplan",
+    "roles": ["ADMIN"]
+  },
+  {
+    "method": "GET",
+    "route": "/lodgingtypes",
     "roles": ["ADMIN"]
   },
   {
@@ -70,8 +85,18 @@
     "roles": ["ADMIN"]
   },
   {
+    "method": "GET",
+    "route": "/api/vinculatetouristplan/{touristPlanId}",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "GET",
+    "route": "/api/cities",
+    "roles": ["ADMIN","USER"]
+  },
+  {
     "method": "PUT",
-    "route": "/vinculatetouristplan/{touristPlanId}",
+    "route": "/api/lodging/{id}",
     "roles": ["ADMIN","USER"]
   }
 ]

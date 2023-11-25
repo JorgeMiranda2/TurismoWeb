@@ -1,0 +1,109 @@
+
+/* Estilos personalizados */
+.accordion {
+  width: 100%;
+}
+
+.panel {
+  border: 1px solid #dee2e6;
+  border-radius: 4px;
+  margin-bottom: 10px;
+  background-color: #fff;
+}
+
+.panel-header {
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+}
+
+.panel-title {
+  font-weight: bold;
+}
+
+.panel-description {
+  color: #6c757d;
+}
+
+.available-quota {
+  font-size: 14px;
+}
+
+.inscribirse-btn {
+  margin-left: 10px;
+}
+
+.panel-content {
+  padding: 10px;
+}
+
+.destinations-list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.destination {
+  margin-bottom: 10px;
+}
+
+.lodgings-list {
+  list-style: none;
+  padding-left: 20px;
+}
+
+.lodging {
+  margin-bottom: 5px;
+}
+
+
+.inscribirse-btn {
+    margin-left: 0; /* Aleja el botón hacia la izquierda */
+  }
+  
+  .panel-content {
+    padding: 10px;
+  }
+  
+  .transport-type {
+    margin-bottom: 10px;
+  }
+  
+  .destination-info {
+    margin-bottom: 5px;
+  }
+  
+  .lodging-info {
+    margin-left: 15px; /* Añade separación a la información del hospedaje */
+    margin-bottom: 5px;
+  }
+  
+
+  /* Ajustes de estilos */
+
+.header-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .header-info {
+    flex: 1;
+    margin-right: 20px;
+  }
+  
+  .header-controls {
+    display: flex;
+    align-items: center;
+  }
+  
+  .inscribirse-btn {
+    margin-left: 20px;
+  }
+  
+  .available-quota {
+    margin-right: 20px;
+  }
+  

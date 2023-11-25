@@ -32,7 +32,6 @@ public class City {
     private Department department;
 
     @OneToMany(mappedBy = "city")
-    @JsonBackReference
     private List<Lodging> lodgings;
 
 

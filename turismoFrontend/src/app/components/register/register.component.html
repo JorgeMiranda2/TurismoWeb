@@ -1,1 +1,32 @@
 <p>register works!</p>
+<div class="container mt-4">
+  <h1 class="mb-4 text-center">Register</h1>
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <form (ngSubmit)="register()" #registerForm="ngForm">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email</label>
+          <input type="email" class="form-control" id="email" name="email" [(ngModel)]="registerData.email" required>
+        </div>
+        <div class="mb-3">
+          <label for="name" class="form-label">Name</label>
+          <input type="text" class="form-control" id="name" name="name" [(ngModel)]="registerData.name" required>
+        </div>
+        <div class="mb-3">
+          <label for="lastName" class="form-label">Last Name</label>
+          <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="registerData.lastName" required>
+        </div>
+        <div class="mb-3">
+          <label for="userName" class="form-label">Username</label>
+          <input type="text" class="form-control" id="userName" name="userName" [(ngModel)]="registerData.userName" required>
+        </div>
+        <div class="mb-3">
+          <label for="registerPassword" class="form-label">Password</label>
+          <input type="password" class="form-control" id="registerPassword" name="password" [(ngModel)]="registerData.password" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Register</button>
+      </form>
+    </div>
+  </div>
+</div>
+

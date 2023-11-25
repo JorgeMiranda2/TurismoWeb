@@ -18,11 +18,8 @@ public class DtoTouristPlanRegister {
     private String name;
     private List<Long> touristDestinationIds;
     private BigDecimal price;
-
     private int days;
     private int nights;
-
     private TransportType transportType;
-
     private int numEnabledPackages;
 }

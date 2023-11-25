@@ -1,8 +1,12 @@
 package com.turismo.Controllers;
 
 import com.sun.tools.jconsole.JConsoleContext;
+import com.turismo.Dtos.DtosInput.DtoTouristDestinationRegister;
 import com.turismo.Dtos.DtosInput.DtoTouristPlanRegister;
+import com.turismo.Dtos.DtosOutput.DtoTouristDestination;
 import com.turismo.Dtos.DtosOutput.DtoTouristPlanQuota;
+import com.turismo.Models.City;
+import com.turismo.Models.TouristDestination;
 import com.turismo.Models.TouristPlan;
 import com.turismo.Models.User;
 import com.turismo.services.TouristPlanService;
@@ -17,11 +21,10 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import javax.validation.Valid;
 import java.net.URI;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @Validated
@@ -54,7 +57,7 @@ public class TouristPlanController {
     }
 
     @PostMapping("/touristplanadmin")
-    public ResponseEntity<String> createTouristPlan(@RequestBody DtoTouristPlanRegister dtoTouristPlanRegister){
+    public ResponseEntity<Map<String, String>> createTouristPlan(@RequestBody DtoTouristPlanRegister dtoTouristPlanRegister){
         System.out.println("Getting a post request to dto touristPlan");
 
         //Managing headers
@@ -66,8 +69,11 @@ public class TouristPlanController {
         //Saving the touristPlan by service
         Long touristPlanId = touristPlanService.save(touristPlan);
         URI location = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(touristPlanId).toUri();
+
         //returning the response
-        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body("Touristdestination created in: " + location);
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Touristdestination created in: " + location);
+        return ResponseEntity.status(HttpStatus.CREATED).headers(headers).body(response);
     }
 
     @GetMapping("/touristplan")
@@ -84,9 +90,33 @@ public class TouristPlanController {
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(touristPlan);
     }
+
+
+    @GetMapping("/enroll")
+    public ResponseEntity<Map<String, String>> enroll(){
+        //Managing headers
+
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "Application/json");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+
+        //returning the response
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "register successful: ");
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(response);
+    }
+
+
     @GetMapping("/quotastouristplan")
     public ResponseEntity<Collection<DtoTouristPlanQuota>> listquotasTouristPlan(){
-        System.out.println("Getting a get request to touristPlan");
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
 
         //Managing headers
         HttpHeaders headers = new HttpHeaders();
@@ -98,12 +128,7 @@ public class TouristPlanController {
 
         for (TouristPlan plan : touristPlans) {
             int usersCount = userService.countUsersByTouristPlan(plan);
-            int availableQuotas = plan.getNumEnabledPackages() - usersCount;
-
-            DtoTouristPlanQuota quotaDTO = new DtoTouristPlanQuota();
-            quotaDTO.setId(plan.getId());
-            quotaDTO.setName(plan.getName());
-            quotaDTO.setAvailableQuotas(availableQuotas);
+            DtoTouristPlanQuota quotaDTO = getDtoTouristPlanQuota(plan, usersCount);
 
             quotas.add(quotaDTO);
         }
@@ -111,8 +136,55 @@ public class TouristPlanController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(quotas);
     }
 
-    @PutMapping("/vinculatetouristplan/{touristPlanId}")
-    public ResponseEntity<String> vinculateTouristPlan(@PathVariable Long touristPlanId){
+    private static DtoTouristPlanQuota getDtoTouristPlanQuota(TouristPlan plan, int usersCount) {
+        int availableQuotas = plan.getNumEnabledPackages() - usersCount;
+
+        DtoTouristPlanQuota quotaDTO = new DtoTouristPlanQuota();
+        quotaDTO.setId(plan.getId());
+        quotaDTO.setName(plan.getName());
+        quotaDTO.setTransportType(plan.getTransportType());
+        quotaDTO.setAvailableQuotas(availableQuotas);
+        quotaDTO.setTouristDestinations(plan.getTouristDestinations());
+        quotaDTO.setDays(plan.getDays());
+        quotaDTO.setNights(plan.getNights());
+        quotaDTO.setPrice(plan.getPrice());
+        return quotaDTO;
+    }
+
+    @GetMapping("/quotastouristplanbyuser")
+    public ResponseEntity<Collection<DtoTouristPlanQuota>> listquotasTouristPlan2(){
+
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+        Optional<User> user = userService.getUserById(userId.get());
+        //Managing headers
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "Application/json");
+
+        //Getting all touristPlan by service
+        Collection<TouristPlan> touristPlans = touristPlanService.list();
+        Collection<DtoTouristPlanQuota> quotas = new ArrayList<>();
+
+
+            for (TouristPlan planUser : user.get().getTouristPlans()){
+                if(planUser.getId().equals(planUser.getId())){
+                    int usersCount = userService.countUsersByTouristPlan(planUser);
+                    DtoTouristPlanQuota quotaDTO = getDtoTouristPlanQuota(planUser, usersCount);
+
+                    quotas.add(quotaDTO);
+                }
+            }
+
+
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(quotas);
+    }
+
+
+
+    @GetMapping("/vinculatetouristplan/{touristPlanId}")
+    public ResponseEntity<Map<String, String>> vinculateTouristPlan(@PathVariable Long touristPlanId){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String userName = authentication.getName();
         Optional<Long> userId = userService.getUserIdFromUserName(userName);
@@ -146,7 +218,9 @@ public class TouristPlanController {
                     // Guardar el usuario actualizado
                    userService.save(user);
 
-                    return ResponseEntity.ok().body("registration succesfull");
+                    Map<String, String> response = new HashMap<>();
+                    response.put("message", "updated successful");
+                    return ResponseEntity.ok().body(response);
                 } else {
                     System.out.println("not found optionalTouristPlan");
                     return ResponseEntity.notFound().build();
@@ -160,13 +234,51 @@ public class TouristPlanController {
         return ResponseEntity.notFound().build();
     }}
 
+    @PutMapping("/touristplan/{id}")
+    public ResponseEntity<Map<String, String>> update(@PathVariable Long id, @Valid @RequestBody DtoTouristPlanRegister dtoTouristPlanRegister) {
+
+        Optional<TouristPlan> optionalTouristPlan = touristPlanService.getTouristPlanId(id);
+
+        if (optionalTouristPlan.isPresent()) {
+            TouristPlan touristPlan = optionalTouristPlan.get();
+
+
+            touristPlan.setName(dtoTouristPlanRegister.getName());
+            touristPlan.setDays(dtoTouristPlanRegister.getDays());
+            touristPlan.setNights(dtoTouristPlanRegister.getNights());
+            touristPlan.setPrice(dtoTouristPlanRegister.getPrice());
+            touristPlan.setNumEnabledPackages(dtoTouristPlanRegister.getNumEnabledPackages());
+            touristPlan.setTransportType(dtoTouristPlanRegister.getTransportType());
+            List<TouristDestination> touristDestinations = dtoTouristPlanRegister.getTouristDestinationIds().stream().map(
+                    (touristDestinationId)->{
+                        return new TouristDestination(touristDestinationId);
+                    }
+            ).collect(Collectors.toList());
+            touristPlan.setTouristDestinations(touristDestinations);
+           touristPlanService.save(touristPlan);
+
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Touristplan updated");
+            return ResponseEntity.ok(response);
+        } else {
+            // Manejar el caso en que el ID no se encuentre en la base de datos
+            Map<String, String> response = new HashMap<>();
+            response.put("message", "Touristplan not found");
+            return ResponseEntity.notFound().build();
+        }
+
+    }
+
     @DeleteMapping("/touristplan/{id}")
-    public ResponseEntity<String> delete(@PathVariable Long id){
+    public ResponseEntity<Map<String, String>> delete(@PathVariable Long id){
         Optional<TouristPlan> isTouristPlan = touristPlanService.getTouristPlanId(id);
         if(isTouristPlan.isEmpty()){
             return ResponseEntity.status(HttpStatus.UNPROCESSABLE_ENTITY).build();
         }
         touristPlanService.delete(isTouristPlan.get());
-        return ResponseEntity.status(HttpStatus.OK).body("touristPlan  deleted");
+
+        Map<String, String> response = new HashMap<>();
+        response.put("message", "Touristplan deleted");
+        return ResponseEntity.status(HttpStatus.OK).body(response);
     }
 }

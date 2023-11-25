@@ -1,3 +1,7 @@
-<p>administration works!</p>
-
+<h2 class="text-center mt-4 mb-2">Administrar</h2>
+<div class="text-center mb-3">
+    <button class="btn btn-success me-2" (click)="showComponent('/administration/touristdestination')" >Destinos turísticos</button>
+    <button class="btn btn-info me-2" (click)="showComponent('/administration/lodging')">Hospedajes</button>
+    <button class="btn btn-secondary" (click)="showComponent('/administration/touristplan')">Planes turísticos</button>
+</div>
 <router-outlet></router-outlet>

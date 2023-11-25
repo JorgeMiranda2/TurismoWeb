@@ -1,7 +1,8 @@
+
 <!-- Contenedor principal -->
 <div class="container mt-4">
     <!-- Título de la sección -->
-    <h2 class="mb-4 text-center">Destinos turisticos</h2>
+    <h2 class="mb-4 text-center">Planes turísticos</h2>
   
     <!-- Botones -->
     <button class="btn btn-primary me-2" (click)="onAdd()">Agregar</button>
@@ -14,8 +15,14 @@
       <thead>
         <tr>
           <th>Id</th>
-          <th>Name</th>
-          <th>City</th>
+          <th>Nombre</th>
+          <th>precio</th>
+          <th>dias</th>
+          <th>noches</th>
+          <th>tipo de transporte</th>
+          <th>paquetes habilitados</th>
+          <th>destinos</th>
+          <th>hospedajes</th>
         </tr>
       </thead>
       <!-- Cuerpo de la tabla -->
@@ -27,7 +34,26 @@
         >
           <td>{{ element.id }}</td>
           <td>{{ element.name }}</td>
-          <td>{{ element.city.name }}</td>
+          <td>${{ element.price }}</td>
+          <td>{{ element.days }}</td>
+          <td>{{ element.nights }}</td>
+          <td>{{ element.transportType }}</td>
+          <td>{{ element.numEnabledPackages }}</td>
+          <td>
+            <ul>
+                <li *ngFor="let destination of element.touristDestinations" >
+                     {{destination.name}} - {{destination.city.name}}
+                    
+                </li>
+            </ul>
+          </td>
+          <td>
+            <ul>
+              <li *ngFor="let lodging of getUniqueLodgings(element.touristDestinations)">
+                {{ lodging }}
+              </li>
+            </ul>
+          </td>
         </tr>
       </tbody>
     </table>
@@ -43,6 +69,5 @@
 </div>
 
 <div class="d-flex justify-content-center align-items-center mt-4">
-  <button class="btn btn-primary" (click)="downloadPDF()">Descargar PDF</button>
-</div>
-
+    <button class="btn btn-primary" (click)="downloadPDF()">Descargar PDF</button>
+  </div>

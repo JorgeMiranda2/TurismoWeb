@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterOutlet } from '@angular/router';
+import { Router, RouterOutlet } from '@angular/router';
 
 
 @Component({
@@ -11,5 +11,9 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './administration.component.css'
 })
 export class AdministrationComponent {
-
+  constructor(private router: Router) {
+  }
+  showComponent(route:String){
+    this.router.navigate([route]);
+  }
 }

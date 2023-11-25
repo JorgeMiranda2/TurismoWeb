@@ -1,0 +1,58 @@
+<div class="container mt-4 mb-5">
+    <h1 class="mb-4 text-center">Hospedaje</h1>
+  
+    <form (ngSubmit)="onSubmit()">
+
+        
+      <div class="mb-3 text-center">
+        <h3 for="name" class="form-label">Id: {{lodgingId}}</h3>
+        <div></div>
+        <h3 for="name" class="form-label">ciudad: {{cityName}}</h3>
+      </div>
+  
+      <div class="mb-3">
+        <label for="name" class="form-label">Nombre:</label>
+        <input type="text" id="name" class="form-control" [(ngModel)]="lodging.name" name="name" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="lodgingType" class="form-label">Tipo de Hospedaje:</label>
+        <!-- Aquí podrías usar un select similar al que tienes para transportType -->
+        <select id="lodgingType" class="form-select" [(ngModel)]="lodging.lodgingType" name="lodgingType" required>
+            <option *ngFor="let lodgingType of lodgingTypes" [value]="lodgingType" [selected]="lodgingType === lodging.lodgingType">{{ lodgingType }}</option>
+        </select>
+      </div>
+
+  
+      <div class="mb-3">
+        <label for="numRooms" class="form-label">Número de Habitaciones:</label>
+        <input type="number" id="numRooms" class="form-control" [(ngModel)]="lodging.numRooms" name="numRooms" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="checkIn" class="form-label">Hora de Check-in:</label>
+        <!-- Puedes usar un input tipo time para capturar la hora de check-in -->
+        <input type="time" id="checkIn" class="form-control" [(ngModel)]="lodging.checkIn" name="checkIn" required>
+      </div>
+  
+      <div class="mb-3">
+        <label for="checkOut" class="form-label">Hora de Check-out:</label>
+        <!-- Puedes usar un input tipo time para capturar la hora de check-out -->
+        <input type="time" id="checkOut" class="form-control" [(ngModel)]="lodging.checkOut" name="checkOut" required>
+      </div>
+
+      <label for="citySelect">Ciudad:</label>
+      <select id="citySelect" class="form-select mb-3" [(ngModel)]="lodging.cityId" name="cityId">
+        <option [value]="city.id" *ngFor="let city of cities">{{ city.name }}</option>
+      </select>
+      
+  
+      <!-- Otros campos de la clase Lodging que desees agregar -->
+  
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-primary">Enviar</button>
+        <button type="button" class="btn btn-secondary" (click)="onCloseModal()">Cerrar</button>
+      </div>
+    </form>
+  </div>
+  

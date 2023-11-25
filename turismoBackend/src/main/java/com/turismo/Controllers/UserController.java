@@ -2,18 +2,23 @@ package com.turismo.Controllers;
 
 
 
+import com.turismo.Dtos.DtosOutput.DtoTouristPlanQuota;
 import com.turismo.Models.Profile;
+import com.turismo.Models.TouristPlan;
 import com.turismo.Models.User;
 import com.turismo.services.UserService;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.Valid;
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -99,5 +104,8 @@ public class UserController {
         userService.delete(isUser.get());
         return ResponseEntity.status(HttpStatus.OK).body("User deleted");
     }
+
+
+
 
 }

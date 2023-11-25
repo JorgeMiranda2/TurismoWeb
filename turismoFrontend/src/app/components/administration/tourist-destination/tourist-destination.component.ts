@@ -8,6 +8,8 @@ import { Observable } from 'rxjs';
 import { ObtainHeader } from '../../../helpers/obtainHeader';
 import { BASE_BACKEND_URL } from '../../../enviroment';
 import { TouristDestinationModalComponent } from '../tourist-destination-modal/tourist-destination-modal.component';
+import jsPDF from 'jspdf';
+import html2canvas from 'html2canvas';
 
 
 @Component({
@@ -108,6 +110,28 @@ onDelete(id:number | undefined){
   }
 
 }
+
+
+
+
+  downloadPDF() {
+    const table = document.querySelector('.table'); // Selecciona tu tabla
+
+    if (table instanceof HTMLElement) {
+      html2canvas(table).then((canvas) => {
+        const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF();
+      const imgProps = pdf.getImageProperties(imgData);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = (imgProps.height * pdfWidth) / imgProps.width;
+      
+      pdf.addImage(imgData, 'PNG', 0, 0, pdfWidth, pdfHeight);
+      pdf.save('Destinos_Turisticos.pdf');
+      });
+    } else {
+      console.error('No se encontró la tabla');
+    }
+  }
 
 
 onSubmitData(data: any):void {
