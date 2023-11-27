@@ -95,6 +95,16 @@
     "roles": ["ADMIN","USER"]
   },
   {
+    "method": "GET",
+    "route": "/api/quotastouristplanbyuser",
+    "roles": ["ADMIN","USER"]
+  },
+  {
+    "method": "GET",
+    "route": "/api/notquotastouristplanbyuser",
+    "roles": ["ADMIN","USER"]
+  },
+  {
     "method": "PUT",
     "route": "/api/lodging/{id}",
     "roles": ["ADMIN","USER"]

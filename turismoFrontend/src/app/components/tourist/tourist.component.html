@@ -2,44 +2,88 @@
 
 <h2 class="mb-5 text-center mt-4">Informacion de planes</h2>
 
+
+<h2 class="mb-5 text-center mt-4">Planes no vinculados</h2>
 <mat-accordion class="accordion">
-    <mat-expansion-panel *ngFor="let plan of plans" class="panel">
-      <mat-expansion-panel-header class="panel-header">
-        <mat-panel-title class="panel-title">
-          {{ plan.name }}
-        </mat-panel-title>
-        <mat-panel-description class="panel-description">
-          Precio: ${{ plan.price }} - Días: {{ plan.days }} - Noches: {{ plan.nights }}
-        </mat-panel-description>
-        <span class="available-quota">Cupos Disponibles: {{ plan.availableQuotas }}</span>
-      </mat-expansion-panel-header>
-      <div class="panel-content">
-        <div class="transport-type">
-          <strong>Tipo de transporte:</strong> {{ plan.transportType }}
-        </div>
-        <div class="destinations">
-          <p><strong>Lugares para visitar:</strong></p>
-          <ul class="destinations-list">
-            <li *ngFor="let destination of plan.touristDestinations" class="destination">
-              <div class="destination-info">
-                <strong>{{ destination.name }} - Ciudad:</strong> {{ destination.city.name }}
-              </div>
-              <ul class="lodgings-list">
-                <li *ngFor="let lodging of destination.city.lodgings" class="lodging">
-                  <div class="lodging-info">
-                    <strong>{{ lodging.name }}</strong>
-                    <div><strong>Tipo:</strong> {{ lodging.lodgingType }}</div>
-                    <div><strong>Habitaciones:</strong> {{ lodging.numRooms }}</div>
-                  </div>
-                </li>
-              </ul>
-            </li>
-          </ul>
-          <button mat-button color="accent" class="btn btn-primary me-2" (click)="getAvailablePlan(plan.id)">
-            Inscribirse
-          </button>
-        </div>
+  <mat-expansion-panel *ngFor="let plan of unlinkedPlans" class="panel">
+    <mat-expansion-panel-header class="panel-header">
+      <mat-panel-title class="panel-title">
+        {{ plan.name }}
+      </mat-panel-title>
+      <mat-panel-description class="panel-description">
+        Precio: ${{ plan.price }} - Días: {{ plan.days }} - Noches: {{ plan.nights }}
+      </mat-panel-description>
+      <span class="available-quota">Cupos Disponibles: {{ plan.availableQuotas }}</span>
+    </mat-expansion-panel-header>
+    <div class="panel-content">
+      <div class="transport-type">
+        <strong>Tipo de transporte:</strong> {{ plan.transportType }}
       </div>
-    </mat-expansion-panel>
-  </mat-accordion>
-  
+      <div class="destinations">
+        <p><strong>Lugares para visitar:</strong></p>
+        <ul class="destinations-list">
+          <li *ngFor="let destination of plan.touristDestinations" class="destination">
+            <div class="destination-info">
+              <strong>{{ destination.name }} - Ciudad:</strong> {{ destination.city.name }}
+            </div>
+            <ul class="lodgings-list">
+              <li *ngFor="let lodging of destination.city.lodgings" class="lodging">
+                <div class="lodging-info">
+                  <strong>{{ lodging.name }}</strong>
+                  <div><strong>Tipo:</strong> {{ lodging.lodgingType }}</div>
+                  <div><strong>Habitaciones:</strong> {{ lodging.numRooms }}</div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <button mat-button color="accent" class="btn btn-primary me-2" (click)="getAvailablePlan(plan.id)">
+          Inscribirse
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>
+
+
+<h2 class="mb-5 text-center mt-4">Planes vinculados</h2>
+<mat-accordion class="accordion">
+  <mat-expansion-panel *ngFor="let plan of linkedPlans" class="panel">
+    <mat-expansion-panel-header class="panel-header">
+      <mat-panel-title class="panel-title">
+        {{ plan.name }}
+      </mat-panel-title>
+      <mat-panel-description class="panel-description">
+        Precio: ${{ plan.price }} - Días: {{ plan.days }} - Noches: {{ plan.nights }}
+      </mat-panel-description>
+      <span class="available-quota">Cupos Disponibles: {{ plan.availableQuotas }}</span>
+    </mat-expansion-panel-header>
+    <div class="panel-content">
+      <div class="transport-type">
+        <strong>Tipo de transporte:</strong> {{ plan.transportType }}
+      </div>
+      <div class="destinations">
+        <p><strong>Lugares para visitar:</strong></p>
+        <ul class="destinations-list">
+          <li *ngFor="let destination of plan.touristDestinations" class="destination">
+            <div class="destination-info">
+              <strong>{{ destination.name }} - Ciudad:</strong> {{ destination.city.name }}
+            </div>
+            <ul class="lodgings-list">
+              <li *ngFor="let lodging of destination.city.lodgings" class="lodging">
+                <div class="lodging-info">
+                  <strong>{{ lodging.name }}</strong>
+                  <div><strong>Tipo:</strong> {{ lodging.lodgingType }}</div>
+                  <div><strong>Habitaciones:</strong> {{ lodging.numRooms }}</div>
+                </div>
+              </li>
+            </ul>
+          </li>
+        </ul>
+        <button mat-button color="accent" class="btn btn-danger me-2" (click)="getAvailablePlan(plan.id)">
+        Eliminar inscripcion
+        </button>
+      </div>
+    </div>
+  </mat-expansion-panel>
+</mat-accordion>

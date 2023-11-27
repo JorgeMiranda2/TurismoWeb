@@ -14,6 +14,10 @@ import {MatExpansionModule} from '@angular/material/expansion';
 })
 export class TouristComponent {
 
+  unlinkedPlans: any[] = []; 
+  linkedPlans: any[] = []; 
+
+
   constructor(private http: HttpClient, private obtainHeader : ObtainHeader) {}
   panelOpenState = false;
 
@@ -35,6 +39,18 @@ export class TouristComponent {
       console.log(error);
     }
    )
+
+   this.loadUserPlans().subscribe(
+    (response) => {
+      console.log(response);
+    this.unlinkedPlans = response.unlinkedPlans;
+    this.linkedPlans = response.linkedPlans;
+
+    },
+    (error) => {
+      console.log(error);
+    }
+   )
   }
 
 
@@ -43,21 +59,16 @@ export class TouristComponent {
   plans: any[] = [];
 
 
-
-
 selectedData: any | null = null;
 isUpdate: boolean = false;
 
-getUniqueLodgings(touristDestinations: any[]): string[] {
-  const uniqueLodgings = new Set<string>();
-  touristDestinations.forEach(destination => {
-    if (destination.city && destination.city.lodgings) {
-      destination.city.lodgings.forEach((lodging:any) => {
-        uniqueLodgings.add(lodging.name);
-      });
-    }
-  });
-  return Array.from(uniqueLodgings);
+
+loadUserPlans(): Observable<any> {
+  const headers = this.obtainHeader.getAuthHeader();
+
+  return this.http
+    .get<any[]>(`${BASE_BACKEND_URL}/api/plansbyuser`, { headers })
+
 }
 
 getAvailablePlan(id:any){

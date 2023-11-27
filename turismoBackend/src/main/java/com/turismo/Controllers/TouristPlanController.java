@@ -168,12 +168,11 @@ public class TouristPlanController {
 
 
             for (TouristPlan planUser : user.get().getTouristPlans()){
-                if(planUser.getId().equals(planUser.getId())){
+
                     int usersCount = userService.countUsersByTouristPlan(planUser);
                     DtoTouristPlanQuota quotaDTO = getDtoTouristPlanQuota(planUser, usersCount);
-
                     quotas.add(quotaDTO);
-                }
+
             }
 
 
@@ -181,6 +180,49 @@ public class TouristPlanController {
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(quotas);
     }
 
+    @GetMapping("/plansbyuser")
+    public ResponseEntity<Map<String, Collection<DtoTouristPlanQuota>>> getPlansByUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String userName = authentication.getName();
+        Optional<Long> userId = userService.getUserIdFromUserName(userName);
+        Optional<User> user = userService.getUserById(userId.get());
+
+        // Obtener todos los planes turísticos
+        Collection<TouristPlan> allTouristPlans = touristPlanService.list();
+
+        // Crear listas para almacenar planes vinculados y no vinculados
+        Collection<DtoTouristPlanQuota> linkedPlans = new ArrayList<>();
+        Collection<DtoTouristPlanQuota> unlinkedPlans = new ArrayList<>();
+
+        // Obtener planes vinculados y no vinculados
+        for (TouristPlan plan : allTouristPlans) {
+            boolean isLinked = false;
+            for (TouristPlan userPlan : user.get().getTouristPlans()) {
+                if (userPlan.getId().equals(plan.getId())) {
+                    isLinked = true;
+                    break;
+                }
+            }
+            int usersCount = userService.countUsersByTouristPlan(plan);
+            DtoTouristPlanQuota quotaDTO = getDtoTouristPlanQuota(plan, usersCount);
+
+            if (isLinked) {
+                linkedPlans.add(quotaDTO);
+            } else {
+                unlinkedPlans.add(quotaDTO);
+            }
+        }
+
+        // Almacenar ambas listas en un mapa para devolverlas juntas
+        Map<String, Collection<DtoTouristPlanQuota>> plansMap = new HashMap<>();
+        plansMap.put("linkedPlans", linkedPlans);
+        plansMap.put("unlinkedPlans", unlinkedPlans);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "Application/json");
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(plansMap);
+    }
 
 
     @GetMapping("/vinculatetouristplan/{touristPlanId}")
